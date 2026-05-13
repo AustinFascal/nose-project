@@ -1,0 +1,267 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 16px;
+
+  /* Material 3 Expressive - Nosè Brand Colors */
+  --md-primary: #4F46E5;
+  --md-on-primary: #FFFFFF;
+  --md-primary-container: #E0E7FF;
+  --md-on-primary-container: #1E1B4B;
+
+  --md-secondary: #7C3AED;
+  --md-on-secondary: #FFFFFF;
+  --md-secondary-container: #EDE9FE;
+  --md-on-secondary-container: #3B0764;
+
+  --md-tertiary: #EC4899;
+  --md-on-tertiary: #FFFFFF;
+  --md-tertiary-container: #FCE7F3;
+  --md-on-tertiary-container: #831843;
+
+  --md-error: #DC2626;
+  --md-on-error: #FFFFFF;
+  --md-error-container: #FEE2E2;
+  --md-on-error-container: #7F1D1D;
+
+  --md-success: #059669;
+  --md-on-success: #FFFFFF;
+  --md-success-container: #D1FAE5;
+  --md-on-success-container: #064E3B;
+
+  --md-warning: #F59E0B;
+  --md-on-warning: #FFFFFF;
+  --md-warning-container: #FEF3C7;
+  --md-on-warning-container: #78350F;
+
+  --md-surface: #FEFEFE;
+  --md-on-surface: #1C1B1F;
+  --md-surface-variant: #F5F5F9;
+  --md-on-surface-variant: #49454F;
+  --md-surface-container: #F3F2F7;
+  --md-surface-container-high: #ECE6F0;
+  --md-surface-container-highest: #E6E0E9;
+
+  --md-outline: #79747E;
+  --md-outline-variant: #CAC4D0;
+
+  /* Mapping to theme variables */
+  --background: var(--md-surface);
+  --foreground: var(--md-on-surface);
+  --card: var(--md-surface-container);
+  --card-foreground: var(--md-on-surface);
+  --popover: var(--md-surface-container-high);
+  --popover-foreground: var(--md-on-surface);
+  --primary: var(--md-primary);
+  --primary-foreground: var(--md-on-primary);
+  --secondary: var(--md-secondary);
+  --secondary-foreground: var(--md-on-secondary);
+  --muted: var(--md-surface-variant);
+  --muted-foreground: var(--md-on-surface-variant);
+  --accent: var(--md-tertiary-container);
+  --accent-foreground: var(--md-on-tertiary-container);
+  --destructive: var(--md-error);
+  --destructive-foreground: var(--md-on-error);
+  --border: var(--md-outline-variant);
+  --input: transparent;
+  --input-background: var(--md-surface-variant);
+  --switch-background: var(--md-outline);
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: var(--md-primary);
+  --chart-1: var(--md-primary);
+  --chart-2: var(--md-secondary);
+  --chart-3: var(--md-tertiary);
+  --chart-4: var(--md-success);
+  --chart-5: var(--md-warning);
+  --radius: 1.5rem;
+  --sidebar: var(--md-surface-container);
+  --sidebar-foreground: var(--md-on-surface);
+  --sidebar-primary: var(--md-primary);
+  --sidebar-primary-foreground: var(--md-on-primary);
+  --sidebar-accent: var(--md-surface-container-high);
+  --sidebar-accent-foreground: var(--md-on-surface);
+  --sidebar-border: var(--md-outline-variant);
+  --sidebar-ring: var(--md-primary);
+}
+
+.dark {
+  /* Material 3 Expressive Dark Mode */
+  --md-primary: #A5B4FC;
+  --md-on-primary: #1E1B4B;
+  --md-primary-container: #3730A3;
+  --md-on-primary-container: #E0E7FF;
+
+  --md-secondary: #C4B5FD;
+  --md-on-secondary: #3B0764;
+  --md-secondary-container: #6B21A8;
+  --md-on-secondary-container: #EDE9FE;
+
+  --md-tertiary: #F9A8D4;
+  --md-on-tertiary: #831843;
+  --md-tertiary-container: #BE185D;
+  --md-on-tertiary-container: #FCE7F3;
+
+  --md-error: #FCA5A5;
+  --md-on-error: #7F1D1D;
+  --md-error-container: #991B1B;
+  --md-on-error-container: #FEE2E2;
+
+  --md-success: #6EE7B7;
+  --md-on-success: #064E3B;
+  --md-success-container: #047857;
+  --md-on-success-container: #D1FAE5;
+
+  --md-warning: #FCD34D;
+  --md-on-warning: #78350F;
+  --md-warning-container: #B45309;
+  --md-on-warning-container: #FEF3C7;
+
+  --md-surface: #1C1B1F;
+  --md-on-surface: #E6E1E5;
+  --md-surface-variant: #2B2930;
+  --md-on-surface-variant: #CAC4D0;
+  --md-surface-container: #211F26;
+  --md-surface-container-high: #2B2930;
+  --md-surface-container-highest: #36343B;
+
+  --md-outline: #938F99;
+  --md-outline-variant: #49454F;
+
+  --background: var(--md-surface);
+  --foreground: var(--md-on-surface);
+  --card: var(--md-surface-container);
+  --card-foreground: var(--md-on-surface);
+  --popover: var(--md-surface-container-high);
+  --popover-foreground: var(--md-on-surface);
+  --primary: var(--md-primary);
+  --primary-foreground: var(--md-on-primary);
+  --secondary: var(--md-secondary);
+  --secondary-foreground: var(--md-on-secondary);
+  --muted: var(--md-surface-variant);
+  --muted-foreground: var(--md-on-surface-variant);
+  --accent: var(--md-tertiary-container);
+  --accent-foreground: var(--md-on-tertiary-container);
+  --destructive: var(--md-error);
+  --destructive-foreground: var(--md-on-error);
+  --border: var(--md-outline-variant);
+  --input: var(--md-surface-variant);
+  --ring: var(--md-primary);
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --chart-1: var(--md-primary);
+  --chart-2: var(--md-secondary);
+  --chart-3: var(--md-tertiary);
+  --chart-4: var(--md-success);
+  --chart-5: var(--md-warning);
+  --sidebar: var(--md-surface-container);
+  --sidebar-foreground: var(--md-on-surface);
+  --sidebar-primary: var(--md-primary);
+  --sidebar-primary-foreground: var(--md-on-primary);
+  --sidebar-accent: var(--md-surface-container-high);
+  --sidebar-accent-foreground: var(--md-on-surface);
+  --sidebar-border: var(--md-outline-variant);
+  --sidebar-ring: var(--md-primary);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /**
+  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
+  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
+  */
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  label {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  input {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+  }
+}

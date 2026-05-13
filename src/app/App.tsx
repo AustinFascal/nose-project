@@ -185,8 +185,7 @@ export default function App() {
         tutorialSteps[nextStep].action!();
       }
     } else {
-      setShowWalkthrough(false);
-      setWalkStep(0);
+      handleWalkthroughClose();
     }
   };
 
@@ -274,7 +273,7 @@ export default function App() {
     <div className="h-screen w-full overflow-hidden relative bg-black">
       {/* ── Base Layer: Android Launcher, WhatsApp, or Phone ── */}
       {activeApp === "launcher" && <AndroidHomeScreen onOpenApp={handleOpenApp} />}
-      {activeApp === "whatsapp" && <WhatsAppChatScreen onPanicActivate={() => handlePanicActivate("screenshot")} />}
+      {activeApp === "whatsapp" && <WhatsAppChatScreen onPanicActivate={() => handlePanicActivate("screenshot")} onBack={() => setActiveApp("launcher")} />}
       {activeApp === "phone" && <PhoneCallScreen onPanicActivate={handlePanicActivate} />}
 
       {/* Status Bar (Always on top) */}
@@ -327,12 +326,12 @@ export default function App() {
                   <div className="flex items-center gap-3">
                     {/* Profile Picture */}
                     <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-lg shadow-md">
-                      NC
+                      B
                     </div>
                     {/* Greeting and Username */}
                     <div>
                       <p className="text-sm text-muted-foreground">Good morning,</p>
-                      <h1 className="text-lg font-bold text-foreground">Nur Cholisah</h1>
+                      <h1 className="text-lg font-bold text-foreground">Bambang</h1>
                     </div>
                   </div>
                 )}
@@ -350,7 +349,7 @@ export default function App() {
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--md-surface-variant)] text-muted-foreground hover:bg-[var(--md-outline-variant)] transition-colors"
                     >
                       <RotateCcw className="w-4 h-4" />
-                      <span className="text-xs font-medium">Home</span>
+                      <span className="text-xs font-medium">Home Screen</span>
                     </motion.button>
 
                     {/* Notification Icon */}

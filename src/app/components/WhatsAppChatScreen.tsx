@@ -90,9 +90,10 @@ export const SCAM_MESSAGES: Message[] = [
 
 interface WhatsAppChatScreenProps {
   onPanicActivate: () => void;
+  onBack: () => void;
 }
 
-export function WhatsAppChatScreen({ onPanicActivate }: WhatsAppChatScreenProps) {
+export function WhatsAppChatScreen({ onPanicActivate, onBack }: WhatsAppChatScreenProps) {
   const [typedText, setTypedText] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -110,7 +111,7 @@ export function WhatsAppChatScreen({ onPanicActivate }: WhatsAppChatScreenProps)
           className="flex items-center gap-3 px-3 pb-2 pt-9 text-white flex-shrink-0"
           style={{ background: "linear-gradient(135deg, #075E54 0%, #128C7E 100%)" }}
         >
-          <button className="p-1">
+          <button onClick={onBack} className="p-1 hover:bg-white/10 rounded-full transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">

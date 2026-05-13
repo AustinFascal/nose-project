@@ -14,6 +14,11 @@ import {
   MessageSquare,
   User,
   Users,
+  ChevronRight,
+  ShieldCheck,
+  RotateCcw,
+  TrendingUp,
+  Settings,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
@@ -322,11 +327,15 @@ export function AlertScreen({
   hasScreenshot = true,
   source = "whatsapp",
   panicType = "screenshot",
+  startAnalysis = true,
+  onResultReady,
 }: {
   onClose: () => void;
   hasScreenshot?: boolean;
   source?: "whatsapp" | "launcher" | "phone";
   panicType?: PanicType;
+  startAnalysis?: boolean;
+  onResultReady?: () => void;
 }) {
   const [stage, setStage] = useState<"stalling" | "analyzing" | "result">("stalling");
   const [progress, setProgress] = useState(0);
@@ -348,6 +357,8 @@ export function AlertScreen({
         : GUARDIANS;
 
   useEffect(() => {
+    if (!startAnalysis) return;
+
     const stallingTimer = setTimeout(() => setStage("analyzing"), 3500);
 
     const progressInterval = setInterval(() => {
@@ -361,6 +372,7 @@ export function AlertScreen({
             // Other sources (whatsapp, phone call) are scam simulations.
             const finalVerdict = isLauncher ? "safe" : "scam";
             setVerdict(finalVerdict);
+            onResultReady?.();
           }, 600);
           return 100;
         }
@@ -369,7 +381,7 @@ export function AlertScreen({
     }, 1000);
 
     return () => { clearTimeout(stallingTimer); clearInterval(progressInterval); };
-  }, []);
+  }, [startAnalysis]);
 
   return (
     <div className="min-h-full flex flex-col bg-gradient-to-br from-indigo-900 to-purple-900">
@@ -436,7 +448,7 @@ export function AlertScreen({
                   <Loader2 className="w-9 h-9 text-white" />
                 </motion.div>
               </div>
-              <h2 className="text-2xl font-bold text-white">Analysing {isAudio ? "Voice" : "Screenshot"}</h2>
+              <h2 className="text-2xl font-bold text-white">Analyzing {isAudio ? "Voice" : "Screenshot"}</h2>
               <p className="text-sm text-white opacity-90 mt-1">
                 3 Trusted Guardians are reviewing your case
               </p>
@@ -492,15 +504,14 @@ export function AlertScreen({
 
             {/* Verdict badge */}
             <div className="text-center">
-              <motion.div
-                initial={{ scale: 0, rotate: -20 }} animate={{ scale: 1, rotate: 0 }}
-                transition={{ type: "spring", stiffness: 220, damping: 14 }}
-                className="w-20 h-20 mx-auto mb-3 rounded-full flex items-center justify-center"
-                style={{ background: verdict === "scam" ? "#DC2626" : "#16a34a" }}>
+                <div 
+                  id="alert-verdict"
+                  className="w-20 h-20 mx-auto mb-3 rounded-full flex items-center justify-center"
+                  style={{ background: verdict === "scam" ? "#DC2626" : "#16a34a" }}>
                 {verdict === "scam"
                   ? <XCircle className="w-11 h-11 text-white" strokeWidth={2.5} />
                   : <CheckCircle className="w-11 h-11 text-white" strokeWidth={2.5} />}
-              </motion.div>
+                </div>
               <motion.h2 initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
                 className="text-3xl font-bold text-white">
                 {verdict === "scam" ? "Scam Confirmed" : "Looks Safe"}
@@ -514,7 +525,9 @@ export function AlertScreen({
             </div>
 
             {/* Annotated preview */}
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+            <motion.div 
+              id="alert-evidence"
+              initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
               <div className="flex items-center gap-2 mb-2">
                 <AlertTriangle className="w-4 h-4 text-white" />
                 <span className="text-sm font-semibold text-white">
@@ -580,7 +593,22 @@ export function AlertScreen({
             {/* Action buttons */}
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85 }}
               className="space-y-3 pb-4">
-              <button onClick={onClose}
+              <button 
+                id="alert-reanalyze"
+                onClick={() => {
+                  setStage("stalling");
+                  setProgress(0);
+                  setVerdict(null);
+                }}
+                className="w-full bg-white text-gray-900 py-4 rounded-full font-bold text-base hover:shadow-lg transition-shadow flex items-center justify-center gap-2"
+              >
+                <RotateCcw className="w-5 h-5" />
+                Re-analyze (2 new Guardians)
+              </button>
+
+              <button 
+                id="alert-close"
+                onClick={onClose}
                 className={`w-full ${isAudio ? "bg-purple-600" : "bg-[var(--md-primary)]"} text-white py-4 rounded-full font-bold text-base hover:shadow-lg transition-shadow`}>
                 Return to Safety
               </button>
@@ -605,7 +633,7 @@ function BreathingExercise() {
     const interval = setInterval(() => {
       idx = (idx + 1) % phases.length;
       setBreathPhase(phases[idx]);
-    }, 3000);
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
 

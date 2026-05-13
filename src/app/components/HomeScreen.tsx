@@ -23,11 +23,19 @@ export function HomeScreen({ onActivatePanic, onExploreWorkshops }: { onActivate
           </p>
 
           {/* Quick Stats */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-4 mb-6">
             <StatCard value="2,458" label="Protected" />
             <StatCard value="<15s" label="Response" />
             <StatCard value="94%" label="Success" />
           </div>
+
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('start-tutorial'))}
+            className="w-full py-3 bg-white/20 hover:bg-white/30 backdrop-blur-md text-[var(--md-on-primary-container)] rounded-2xl font-bold text-sm transition-all flex items-center justify-center gap-2"
+          >
+            <Shield className="w-4 h-4" />
+            Start Interactive Tutorial
+          </button>
         </div>
 
         {/* Background Decoration */}

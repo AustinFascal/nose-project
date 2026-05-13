@@ -20,7 +20,18 @@ export function PanicButton({ onClick }: PanicButtonProps) {
     const timer = setTimeout(() => {
       setShowTooltip(false);
     }, 5000);
-    return () => clearTimeout(timer);
+
+    const handleOpenMenu = () => setCaptureState("selecting");
+    const handleCloseMenu = () => setCaptureState("idle");
+
+    window.addEventListener('open-panic-menu', handleOpenMenu);
+    window.addEventListener('close-panic-menu', handleCloseMenu);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('open-panic-menu', handleOpenMenu);
+      window.removeEventListener('close-panic-menu', handleCloseMenu);
+    };
   }, []);
 
   const handlePanicClick = () => {
@@ -78,6 +89,7 @@ export function PanicButton({ onClick }: PanicButtonProps) {
 
               <div className="p-4 space-y-3">
                 <button 
+                  id="panic-screenshot"
                   onClick={() => startPanic("screenshot")}
                   className="w-full flex items-center gap-4 p-4 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-100"
                 >
@@ -91,6 +103,7 @@ export function PanicButton({ onClick }: PanicButtonProps) {
                 </button>
 
                 <button 
+                  id="panic-audio"
                   onClick={() => startPanic("audio")}
                   className="w-full flex items-center gap-4 p-4 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-100"
                 >
@@ -176,10 +189,11 @@ export function PanicButton({ onClick }: PanicButtonProps) {
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-        className="fixed bottom-28 right-6 z-50 cursor-grab active:cursor-grabbing pointer-events-auto"
+        className="fixed top-1/2 right-6 -translate-y-1/2 z-50 cursor-grab active:cursor-grabbing pointer-events-auto"
         style={{ touchAction: 'none' }}
       >
       <motion.button
+        id="panic-button"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={handlePanicClick}

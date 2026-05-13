@@ -90,6 +90,7 @@ export function AndroidHomeScreen({ onOpenApp }: AndroidHomeScreenProps) {
         >
           {/* Phone Icon */}
           <button
+            id="app-phone"
             onClick={() => onOpenApp("phone")}
             className="flex flex-col items-center gap-1.5 group"
           >
@@ -103,6 +104,7 @@ export function AndroidHomeScreen({ onOpenApp }: AndroidHomeScreenProps) {
 
           {/* WhatsApp Icon */}
           <button
+            id="app-whatsapp"
             onClick={() => onOpenApp("whatsapp")}
             className="flex flex-col items-center gap-1.5 group"
           >
@@ -116,6 +118,7 @@ export function AndroidHomeScreen({ onOpenApp }: AndroidHomeScreenProps) {
 
           {/* Nosè App Icon */}
           <button
+            id="app-nose"
             onClick={() => onOpenApp("nose")}
             className="flex flex-col items-center gap-1.5 group"
           >

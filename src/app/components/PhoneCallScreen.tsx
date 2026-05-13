@@ -21,7 +21,7 @@ export function PhoneCallScreen({ onPanicActivate }: PhoneCallScreenProps) {
   };
 
   return (
-    <div className="absolute inset-0 z-10 bg-gray-950 flex flex-col items-center justify-between py-20 text-white">
+    <div className="absolute inset-0 z-10 bg-gray-950 flex flex-col items-center justify-between pt-11 pb-20 text-white">
       {/* Caller Info */}
       <div className="flex flex-col items-center gap-4">
         <motion.div 

@@ -107,7 +107,7 @@ export function WhatsAppChatScreen({ onPanicActivate }: WhatsAppChatScreenProps)
       >
         {/* WhatsApp Header */}
         <div
-          className="flex items-center gap-3 px-3 py-2 text-white flex-shrink-0"
+          className="flex items-center gap-3 px-3 pb-2 pt-9 text-white flex-shrink-0"
           style={{ background: "linear-gradient(135deg, #075E54 0%, #128C7E 100%)" }}
         >
           <button className="p-1">

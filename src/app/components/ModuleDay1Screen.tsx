@@ -445,7 +445,7 @@ export function ModuleDay1Screen({ onBack }: ModuleDay1ScreenProps) {
     <div className="min-h-full bg-gray-50 flex flex-col">
       {/* Header */}
       <div className="bg-gradient-to-br from-indigo-600 to-violet-700 px-5 pt-5 pb-8">
-        <button onClick={onBack} className="flex items-center gap-2 text-white/80 hover:text-white mb-4 transition-colors">
+        <button id="day1-back" onClick={onBack} className="flex items-center gap-2 text-white/80 hover:text-white mb-4 transition-colors">
           <ArrowLeft className="w-5 h-5" />
           <span className="text-sm font-medium">Back to Learning Hub</span>
         </button>
@@ -469,7 +469,7 @@ export function ModuleDay1Screen({ onBack }: ModuleDay1ScreenProps) {
         </div>
 
         {/* Progress bar */}
-        <div className="bg-white/20 rounded-full h-2.5 overflow-hidden">
+        <div id="day1-progress" className="bg-white/20 rounded-full h-2.5 overflow-hidden">
           <motion.div
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -502,7 +502,7 @@ export function ModuleDay1Screen({ onBack }: ModuleDay1ScreenProps) {
       <div className="flex-1 px-5 py-5 space-y-3 pb-8">
 
         {/* Section title */}
-        <div className="flex items-center gap-2">
+        <div id="day1-lessons-header" className="flex items-center gap-2">
           <Play className="w-4 h-4 text-indigo-500" />
           <span className="font-bold text-gray-700 text-sm">Lessons</span>
         </div>
@@ -520,7 +520,7 @@ export function ModuleDay1Screen({ onBack }: ModuleDay1ScreenProps) {
         ))}
 
         {/* Quiz section */}
-        <div className="pt-2">
+        <div id="day1-quiz-section" className="pt-2">
           <div className="flex items-center gap-2 mb-3">
             <Brain className="w-4 h-4 text-violet-500" />
             <span className="font-bold text-gray-700 text-sm">Knowledge Check</span>
@@ -547,6 +547,7 @@ export function ModuleDay1Screen({ onBack }: ModuleDay1ScreenProps) {
                 </div>
                 <p className="text-sm text-gray-500 mb-4">Test your knowledge of social engineering concepts and red flags you just learned.</p>
                 <motion.button
+                  id="day1-quiz-button"
                   whileTap={{ scale: 0.97 }}
                   onClick={() => setShowQuiz(true)}
                   className="w-full bg-gradient-to-r from-violet-500 to-indigo-600 text-white py-3 rounded-full font-semibold text-sm hover:shadow-md transition-shadow"

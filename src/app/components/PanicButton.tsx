@@ -15,6 +15,7 @@ export function PanicButton({ onClick }: PanicButtonProps) {
   const [showTooltip, setShowTooltip] = useState(true);
   const [captureState, setCaptureState] = useState<CaptureState>("idle");
   const [selectedType, setSelectedType] = useState<PanicType | null>(null);
+  const [side, setSide] = useState<"left" | "right">("right");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -23,14 +24,17 @@ export function PanicButton({ onClick }: PanicButtonProps) {
 
     const handleOpenMenu = () => setCaptureState("selecting");
     const handleCloseMenu = () => setCaptureState("idle");
+    const handleMoveSide = (e: any) => setSide(e.detail);
 
     window.addEventListener('open-panic-menu', handleOpenMenu);
     window.addEventListener('close-panic-menu', handleCloseMenu);
+    window.addEventListener('move-panic-side', handleMoveSide);
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener('open-panic-menu', handleOpenMenu);
       window.removeEventListener('close-panic-menu', handleCloseMenu);
+      window.removeEventListener('move-panic-side', handleMoveSide);
     };
   }, []);
 
@@ -186,10 +190,11 @@ export function PanicButton({ onClick }: PanicButtonProps) {
         drag
         dragConstraints={constraintsRef}
         dragMomentum={false}
+        layout
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-        className="fixed top-1/2 right-6 -translate-y-1/2 z-50 cursor-grab active:cursor-grabbing pointer-events-auto"
+        className={`fixed top-1/2 ${side === "left" ? "left-6" : "right-6"} -translate-y-1/2 z-50 cursor-grab active:cursor-grabbing pointer-events-auto`}
         style={{ touchAction: 'none' }}
       >
       <motion.button
@@ -220,13 +225,15 @@ export function PanicButton({ onClick }: PanicButtonProps) {
       <AnimatePresence>
         {showTooltip && (
           <motion.div
-            initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: side === "right" ? 20 : -20 }} 
+            animate={{ opacity: 1, x: 0 }} 
+            exit={{ opacity: 0, x: side === "right" ? 20 : -20 }}
             transition={{ delay: 1, duration: 0.3 }}
-            className="absolute right-[110%] top-1/2 -translate-y-1/2 bg-[var(--md-surface-container-highest)] px-4 py-2 rounded-xl shadow-lg whitespace-nowrap pointer-events-none"
+            className={`absolute ${side === "right" ? "right-[110%]" : "left-[110%]"} top-1/2 -translate-y-1/2 bg-[var(--md-surface-container-highest)] px-4 py-2 rounded-xl shadow-lg whitespace-nowrap pointer-events-none`}
           >
             <p className="text-sm font-medium">Tap if you suspect a scam</p>
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full">
-              <div className="w-0 h-0 border-t-8 border-t-transparent border-b-8 border-b-transparent border-l-8 border-l-[var(--md-surface-container-highest)]" />
+            <div className={`absolute ${side === "right" ? "right-0 translate-x-full" : "left-0 -translate-x-full"} top-1/2 -translate-y-1/2`}>
+              <div className={`w-0 h-0 border-t-8 border-t-transparent border-b-8 border-b-transparent ${side === "right" ? "border-l-8 border-l-[var(--md-surface-container-highest)]" : "border-r-8 border-r-[var(--md-surface-container-highest)]"}`} />
             </div>
           </motion.div>
         )}

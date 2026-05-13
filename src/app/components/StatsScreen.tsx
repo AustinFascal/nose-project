@@ -53,7 +53,7 @@ export function StatsScreen() {
       </div>
 
       {/* Regional Breakdown */}
-      <section>
+      <section id="stats-regional">
         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
           <Globe className="w-6 h-6 text-primary" />
           Regional Coverage
@@ -68,7 +68,7 @@ export function StatsScreen() {
       </section>
 
       {/* Threat Intelligence */}
-      <section>
+      <section id="stats-threats">
         <h3 className="text-xl font-bold mb-4">Top Scam Types Blocked</h3>
         <div className="space-y-3">
           <ThreatCard
@@ -100,6 +100,7 @@ export function StatsScreen() {
 
       {/* Impact Story */}
       <motion.div
+        id="stats-impact"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.5 }}

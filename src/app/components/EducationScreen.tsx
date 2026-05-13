@@ -1,6 +1,6 @@
 import { BookOpen, Video, Award, MapPin, Calendar } from 'lucide-react';
 import { motion } from 'motion/react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { ModuleDay1Screen } from './ModuleDay1Screen';
 import { ModuleDay2Screen } from './ModuleDay2Screen';
 import { ModuleDay3Screen } from './ModuleDay3Screen';
@@ -66,6 +66,12 @@ export function EducationScreen() {
   const handleBackExplore = useCallback(() => setShowExplore(false), []);
   const handleBackWorkshop = useCallback(() => setSelectedWorkshop(null), []);
 
+  useEffect(() => {
+    const handleStartModule1 = () => setShowDay1(true);
+    window.addEventListener('start-module-1', handleStartModule1);
+    return () => window.removeEventListener('start-module-1', handleStartModule1);
+  }, []);
+
   if (showDay1) return <ModuleDay1Screen onBack={handleBackDay1} />;
   if (showDay2) return <ModuleDay2Screen onBack={handleBackDay2} />;
   if (showDay3) return <ModuleDay3Screen onBack={handleBackDay3} />;
@@ -88,7 +94,7 @@ export function EducationScreen() {
       </motion.div>
 
       {/* Workshop Locations */}
-      <section>
+      <section id="learn-workshops">
         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
           <MapPin className="w-6 h-6 text-primary" />
           Upcoming Workshops
@@ -114,13 +120,14 @@ export function EducationScreen() {
       </section>
 
       {/* Training Modules */}
-      <section>
+      <section id="learn-modules">
         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
           <BookOpen className="w-6 h-6 text-secondary" />
           Self-Paced Learning
         </h3>
         <div className="grid grid-cols-1 gap-3">
           <ModuleCard
+            id="learn-start-module-1"
             title="Day 1: Understanding the Threat"
             description="Recognizing social engineering crimes"
             icon={<BookOpen className="w-6 h-6" />}
@@ -149,6 +156,7 @@ export function EducationScreen() {
 
       {/* Guardian Program CTA */}
       <motion.div
+        id="learn-guardian-cta"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.5 }}
@@ -231,6 +239,7 @@ function ModuleCard({
   progress,
   color,
   onStart,
+  id,
 }: {
   title: string;
   description: string;
@@ -238,6 +247,7 @@ function ModuleCard({
   progress: number;
   color: 'primary' | 'secondary' | 'tertiary';
   onStart?: () => void;
+  id?: string;
 }) {
   const colorMap = {
     primary: 'bg-[var(--md-primary-container)] text-[var(--md-on-primary-container)]',
@@ -271,6 +281,7 @@ function ModuleCard({
 
       {progress === 0 && (
         <button
+          id={id}
           onClick={onStart}
           className="w-full mt-3 bg-primary text-primary-foreground py-3 rounded-full font-medium hover:shadow-md transition-shadow">
           Start Module

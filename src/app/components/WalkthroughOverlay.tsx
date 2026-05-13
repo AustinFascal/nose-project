@@ -38,12 +38,13 @@ export const WalkthroughOverlay: React.FC<WalkthroughOverlayProps> = ({
       const interval = setInterval(() => {
         const el = document.getElementById(targetId);
         if (el) {
-          setTargetRect(el.getBoundingClientRect());
-          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          // If we've found it and it's been a while, we can slow down or stop, 
-          // but for animations like the shade, we should keep updating for a bit.
-          if (retries > 20) clearInterval(interval);
-        } else if (retries > 30) {
+          const rect = el.getBoundingClientRect();
+          if (rect.width > 0 && rect.height > 0) {
+            setTargetRect(rect);
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (retries > 40) clearInterval(interval);
+          }
+        } else if (retries > 60) {
           clearInterval(interval);
         }
         retries++;

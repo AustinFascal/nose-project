@@ -27,6 +27,7 @@ import { WalkthroughOverlay } from "./components/WalkthroughOverlay";
 import { SettingsScreen } from "./components/SettingsScreen";
 import { NotificationShade } from "./components/NotificationShade";
 import { StatusBar } from "./components/StatusBar";
+import noseIcon from "../imports/nose-svgrepo-com.svg";
 
 type Screen = "whatsapp" | "home" | "alert" | "education" | "stats" | "settings";
 
@@ -45,6 +46,16 @@ export default function App() {
   const [floatingEnabled, setFloatingEnabled] = useState(true);
   const [notificationEnabled, setNotificationEnabled] = useState(false);
   const [shadeOpen, setShadeOpen] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+
+  const handleStart = () => {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.warn(`Error attempting to enable full-screen mode: ${err.message}`);
+      });
+    }
+    setHasStarted(true);
+  };
 
   // Define linear tutorial steps
   const tutorialSteps = useMemo(() => [
@@ -55,6 +66,7 @@ export default function App() {
     {
       text: "Did you know? You can drag the Nosè button anywhere on your screen for your comfort.",
       targetId: "panic-button",
+      action: () => window.dispatchEvent(new CustomEvent('move-panic-side', { detail: 'left' }))
     },
     {
       text: "First, let's look at a simulation in the Phone app. Tap 'Next' to open the app.",
@@ -158,8 +170,60 @@ export default function App() {
       targetId: "shade-notification-item",
     },
     {
-      text: "Now, swipe up or tap the bottom to close the shade and return home. You're all set!",
-      targetId: null, // Centered
+      text: "Nosè is more than just protection. Let's explore our community impact. Tap 'Stats'.",
+      targetId: "nav-stats",
+      action: () => {
+        setShadeOpen(false);
+        setAppVisible(true);
+        setCurrentScreen("stats");
+      }
+    },
+    {
+      text: "See how we protect users across the region in real-time.",
+      targetId: "stats-regional",
+    },
+    {
+      text: "Together, our community has saved millions from financial fraud.",
+      targetId: "stats-impact",
+    },
+    {
+      text: "Education is our best defense. Visit the Learning Hub to learn more. Tap 'Learn'.",
+      targetId: "nav-learn",
+      action: () => setCurrentScreen("education")
+    },
+    {
+      text: "Take our self-paced courses to sharpen your scam detection skills.",
+      targetId: "learn-modules",
+    },
+    {
+      text: "Join local workshops to meet other Guardians and learn hands-on.",
+      targetId: "learn-workshops",
+    },
+    {
+      text: "Ready to learn? Tap 'Start Module' to begin your Day 1 training.",
+      targetId: "learn-start-module-1",
+      action: () => window.dispatchEvent(new CustomEvent('start-module-1'))
+    },
+    {
+      text: "Welcome to Day 1! Track your learning progress at the top.",
+      targetId: "day1-progress",
+    },
+    {
+      text: "Each module is broken into bite-sized lessons. Expand them to read the core concepts.",
+      targetId: "day1-lessons-header",
+    },
+    {
+      text: "Finish all lessons to unlock the Knowledge Check quiz and earn your badge.",
+      targetId: "day1-quiz-section",
+    },
+    {
+      text: "Tap the back button to return to the Hub at any time.",
+      targetId: "day1-back",
+    },
+    {
+      text: "You're now a part of a movement. Stay safe and protect others. Tap 'Start Now' to exit the tutorial.",
+      targetId: "nav-home",
+      action: () => setCurrentScreen("home")
     }
   ], []);
 
@@ -198,6 +262,7 @@ export default function App() {
     setFloatingEnabled(true);
     setNotificationEnabled(false);
     setShadeOpen(false);
+    window.dispatchEvent(new CustomEvent('move-panic-side', { detail: 'right' }));
   };
 
   const headerValue = useMemo(() => ({ setHeader: setAppHeader }), [setAppHeader]);
@@ -271,37 +336,86 @@ export default function App() {
 
   return (
     <div className="h-screen w-full overflow-hidden relative bg-black">
-      {/* ── Base Layer: Android Launcher, WhatsApp, or Phone ── */}
-      {activeApp === "launcher" && <AndroidHomeScreen onOpenApp={handleOpenApp} />}
-      {activeApp === "whatsapp" && <WhatsAppChatScreen onPanicActivate={() => handlePanicActivate("screenshot")} onBack={() => setActiveApp("launcher")} />}
-      {activeApp === "phone" && <PhoneCallScreen onPanicActivate={handlePanicActivate} />}
+      <AnimatePresence mode="wait">
+        {!hasStarted ? (
+          <motion.div
+            key="start-screen"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleStart}
+            className="absolute inset-0 z-[1000] bg-black flex flex-col items-center justify-center cursor-pointer text-center px-10 gap-8"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="w-32 h-32 flex items-center justify-center drop-shadow-2xl"
+            >
+              <img src={noseIcon} alt="Nosè Logo" className="w-full h-full object-contain" />
+            </motion.div>
 
-      {/* Status Bar (Always on top) */}
-      <StatusBar />
+            <div className="space-y-2">
+              <h1 className="text-white text-3xl font-bold tracking-tight">Nosè Mockup</h1>
+              <p className="text-gray-400 text-lg max-w-xs mx-auto leading-relaxed">
+                Please click anywhere to start the interactive mockup simulation.
+              </p>
+            </div>
 
-      <motion.div
-        id="status-bar-handle"
-        onPanEnd={(_, info) => {
-          if (info.offset.y > 10 || info.velocity.y > 100) setShadeOpen(true);
-        }}
-        onClick={() => setShadeOpen(true)}
-        className="fixed top-0 left-0 right-0 h-10 z-[700] cursor-ns-resize pointer-events-auto"
-      />
+            <motion.div
+              animate={{ opacity: [0.3, 1, 0.3], y: [0, 5, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              className="flex flex-col items-center gap-2"
+            >
+              <div className="w-1 h-12 rounded-full bg-gradient-to-b from-[var(--md-primary)] to-transparent" />
+              <span className="text-[var(--md-primary)] text-sm font-bold uppercase tracking-[0.2em]">
+                Click to start
+              </span>
+            </motion.div>
 
-      <NotificationShade
-        isOpen={shadeOpen}
-        onClose={() => setShadeOpen(false)}
-        nosEnabled={notificationEnabled}
-        onNoseClick={() => handlePanicActivate("screenshot")}
-      />
+            <p className="absolute bottom-10 text-[10px] text-gray-600 uppercase tracking-widest font-medium">
+              Best experienced in full-screen mode
+            </p>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="app-content"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="absolute inset-0"
+          >
+            {/* ── Base Layer: Android Launcher, WhatsApp, or Phone ── */}
+            {activeApp === "launcher" && <AndroidHomeScreen onOpenApp={handleOpenApp} />}
+            {activeApp === "whatsapp" && <WhatsAppChatScreen onPanicActivate={() => handlePanicActivate("screenshot")} onBack={() => setActiveApp("launcher")} />}
+            {activeApp === "phone" && <PhoneCallScreen onPanicActivate={handlePanicActivate} />}
 
-      {/* Floating Panic Button (always available unless alert screen is open) */}
-      {floatingEnabled && (!appVisible || currentScreen !== "alert") && (
-        <PanicButton
-          activeApp={activeApp}
-          onClick={handlePanicActivate}
-        />
-      )}
+            {/* Status Bar (Always on top) */}
+            <StatusBar />
+
+            <motion.div
+              id="status-bar-handle"
+              onPanEnd={(_, info) => {
+                if (info.offset.y > 10 || info.velocity.y > 100) setShadeOpen(true);
+              }}
+              onClick={() => setShadeOpen(true)}
+              className="fixed top-0 left-0 right-0 h-10 z-[700] cursor-ns-resize pointer-events-auto"
+            />
+
+            <NotificationShade
+              isOpen={shadeOpen}
+              onClose={() => setShadeOpen(false)}
+              nosEnabled={notificationEnabled}
+              onNoseClick={() => handlePanicActivate("screenshot")}
+            />
+
+            {/* Floating Panic Button (always available unless alert screen is open) */}
+            {floatingEnabled && (!appVisible || currentScreen !== "alert") && (
+              <PanicButton
+                activeApp={activeApp}
+                onClick={handlePanicActivate}
+              />
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── Nosè App overlay (slides up when panic is triggered) ── */}
       <AnimatePresence>

@@ -10,6 +10,7 @@ interface WalkthroughOverlayProps {
   onClose: () => void;
   hideNext?: boolean;
   cannotSkip?: boolean;
+  centerModal?: boolean;
 }
 
 export const WalkthroughOverlay: React.FC<WalkthroughOverlayProps> = ({
@@ -20,7 +21,8 @@ export const WalkthroughOverlay: React.FC<WalkthroughOverlayProps> = ({
   onNext,
   onClose,
   hideNext = false,
-  cannotSkip = false
+  cannotSkip = false,
+  centerModal = false
 }) => {
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
   const targetId = targetIds[step];
@@ -106,13 +108,13 @@ export const WalkthroughOverlay: React.FC<WalkthroughOverlayProps> = ({
             opacity: 1,
             y: 0,
             scale: 1,
-            top: targetRect
-              ? (targetRect.bottom + 20 > window.innerHeight - 200 ? targetRect.top - 180 : targetRect.bottom + 20)
-              : '50%',
-            left: targetRect
-              ? Math.max(20, Math.min(window.innerWidth - 300, targetRect.left))
-              : '50%',
-            transform: targetRect ? 'none' : 'translate(-50%, -50%)'
+            top: (centerModal || !targetRect)
+              ? '50%'
+              : (targetRect.bottom + 20 > window.innerHeight - 200 ? targetRect.top - 180 : targetRect.bottom + 20),
+            left: (centerModal || !targetRect)
+              ? '50%'
+              : Math.max(20, Math.min(window.innerWidth - 300, targetRect.left)),
+            transform: (centerModal || !targetRect) ? 'translate(-50%, -50%)' : 'none'
           }}
           exit={{ opacity: 0, scale: 0.9 }}
           transition={{ type: 'spring', stiffness: 300, damping: 25 }}

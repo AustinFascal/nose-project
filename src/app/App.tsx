@@ -181,6 +181,7 @@ export default function App() {
     {
       text: "See how we protect users across the region in real-time.",
       targetId: "stats-regional",
+      centerModal: true,
     },
     {
       text: "Together, our community has saved millions from financial fraud.",
@@ -194,10 +195,12 @@ export default function App() {
     {
       text: "Take our self-paced courses to sharpen your scam detection skills.",
       targetId: "learn-modules",
+      centerModal: true,
     },
     {
       text: "Join local workshops to meet other Guardians and learn hands-on.",
       targetId: "learn-workshops",
+      centerModal: true,
     },
     {
       text: "Ready to learn? Tap 'Start Module' to begin your Day 1 training.",
@@ -557,6 +560,7 @@ export default function App() {
           targetIds={tutorialSteps.map(s => s.targetId || null)}
           hideNext={(tutorialSteps[walkStep] as any)?.hideNext}
           cannotSkip={(tutorialSteps[walkStep] as any)?.cannotSkip}
+          centerModal={(tutorialSteps[walkStep] as any)?.centerModal}
           onNext={handleWalkthroughNext}
           onClose={handleWalkthroughClose}
         />

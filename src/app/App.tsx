@@ -28,6 +28,7 @@ import { SettingsScreen } from "./components/SettingsScreen";
 import { NotificationShade } from "./components/NotificationShade";
 import { StatusBar } from "./components/StatusBar";
 import noseIcon from "../imports/nose-svgrepo-com.svg";
+import qrCode from "../imports/qr-access.svg";
 
 type Screen = "whatsapp" | "home" | "alert" | "education" | "stats" | "settings";
 
@@ -359,9 +360,25 @@ export default function App() {
             <div className="space-y-2">
               <h1 className="text-white text-3xl font-bold tracking-tight">Nosè Mockup</h1>
               <p className="text-gray-400 text-lg max-w-xs mx-auto leading-relaxed">
-                Please click anywhere to start the interactive mockup simulation.
+                Please click anywhere to start the interactive mockup simulation. Best experienced in mobile device in full-screen mode.
               </p>
             </div>
+
+            {/* QR Code Section */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 }}
+              className="flex flex-col items-center gap-3 p-4 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-sm"
+              onClick={(e) => e.stopPropagation()} // Prevent starting tutorial when clicking QR
+            >
+              <div className="w-32 h-32 bg-white p-2 rounded-xl">
+                <img src={qrCode} alt="QR Code" className="w-full h-full object-contain" />
+              </div>
+              <p className="text-[10px] text-gray-500 uppercase tracking-widest font-medium">
+                Scan to open on your phone
+              </p>
+            </motion.div>
 
             <motion.div
               animate={{ opacity: [0.3, 1, 0.3], y: [0, 5, 0] }}
@@ -374,9 +391,7 @@ export default function App() {
               </span>
             </motion.div>
 
-            <p className="absolute bottom-10 text-[10px] text-gray-600 uppercase tracking-widest font-medium">
-              Best experienced in full-screen mode
-            </p>
+
           </motion.div>
         ) : (
           <motion.div
